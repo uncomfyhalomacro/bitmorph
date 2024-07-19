@@ -2,7 +2,7 @@
 
 > Taking back decentralised Git hosting
 
-A forge or VCS hosting for Git in [[Tech/Web3 and Blockchain/Internet Computer|IC]].
+A forge or VCS hosting for Git in [Internet Computer](https://internetcomputer.org).
 
 # Project Rationale
 
