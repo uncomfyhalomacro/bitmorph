@@ -1,0 +1,41 @@
+{
+  "canisters": {
+    "bitmorph_backend": {
+      "candid": "src/bitmorph_backend/bitmorph_backend.did",
+      "declarations": {
+        "node_compatibility": true
+      },
+      "package": "bitmorph_backend",
+      "type": "rust"
+    },
+    "bitmorph_frontend": {
+      "dependencies": [
+        "bitmorph_backend"
+      ],
+      "source": [
+        "src/bitmorph_frontend/dist"
+      ],
+      "type": "assets",
+      "workspace": "bitmorph_frontend"
+    },
+    "internet_identity": {
+      "candid": "https://github.com/dfinity/internet-identity/releases/latest/download/internet_identity.did",
+      "frontend": {},
+      "remote": {
+        "id": {
+          "ic": "rdmx6-jaaaa-aaaaa-aaadq-cai"
+        }
+      },
+      "type": "custom",
+      "wasm": "https://github.com/dfinity/internet-identity/releases/latest/download/internet_identity_dev.wasm.gz"
+    }
+  },
+  "defaults": {
+    "build": {
+      "args": "",
+      "packtool": ""
+    }
+  },
+  "output_env_file": ".env",
+  "version": 1
+}
