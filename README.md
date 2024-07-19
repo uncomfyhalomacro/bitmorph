@@ -64,11 +64,20 @@ cost.
 
 ---
 
-# Technical Specifications
+# Technical Specifications (Planned)
 
 ## Frontend
 
+The frontend will be using a Rust [Dioxus](https://dioxuslabs.com/). This
+allows me to write the whole thing in Rust with the possibility to port
+this into mobile platforms like Android and iOS in the future. Dioxus
+can be also compiled to WASM, allowing this application to be built
+as a website. A good example would be their website using dioxus -
+<https://github.com/DioxusLabs/docsite>.
+
 ## Backend
+
+Backend will be using the [Rust CDK](https://github.com/dfinity/cdk-rs).
 
 ---
 
