@@ -1,7 +1,12 @@
 #![allow(non_snake_case)]
 
+const CANDID_SOURCE: &'str = "../../bitmorph_backend/bitmorph_backend.did";
+use candid::{CandidType, Decode, Encode, Nat};
 use dioxus::prelude::*;
+use ic_agent::{export::Principal, Agent};
+use serde::Deserialize;
 use tracing::Level;
+use candid_parser::utils::CandidSource;
 
 #[derive(Clone, Routable, Debug, PartialEq)]
 enum Route {

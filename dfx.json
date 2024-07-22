@@ -1,16 +1,17 @@
 {
   "canisters": {
-    "bitmorph-backend": {
-      "candid": "crates/bitmorph-backend/bitmorph-backend.did",
-      "package": "bitmorph-backend",
+    "bitmorph_backend": {
+      "candid": "crates/bitmorph_backend/bitmorph_backend.did",
+      "package": "bitmorph_backend",
       "type": "rust"
     },
-    "bitmorph-frontend": {
+    "bitmorph_frontend": {
       "dependencies": [
-        "bitmorph-backend"
+        "bitmorph_backend"
       ],
-      "package": "bitmorph-frontend",
-      "type": "rust",
+      "source": ["crates/bitmorph_frontend/dist"],
+      "package": "bitmorph_frontend",
+      "type": "assets"
     },
     "internet_identity": {
       "candid": "https://github.com/dfinity/internet-identity/releases/latest/download/internet_identity.did",
