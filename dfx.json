@@ -1,12 +1,11 @@
 {
   "canisters": {
     "bitmorph-backend": {
-      "candid": "src/bitmorph-backend/bitmorph-backend.did",
+      "candid": "crates/bitmorph-backend/bitmorph-backend.did",
       "package": "bitmorph-backend",
       "type": "rust"
     },
     "bitmorph-frontend": {
-      "candid": "src/bitmorph-frontend/bitmorph-frontend.did",
       "dependencies": [
         "bitmorph-backend"
       ],
