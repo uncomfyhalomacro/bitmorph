@@ -1,7 +1,7 @@
 [workspace]
 members = [
-    "crates/bitmorph_backend",
-    "crates/bitmorph_frontend",
+    "src/bitmorph_backend",
+    "src/bitmorph_frontend",
 ]
 resolver = "2"
 
