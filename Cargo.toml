@@ -1,5 +1,9 @@
 [workspace]
 members = [
-    "src/bitmorph_backend"
+    "src/bitmorph_backend",
+    "src/bitmorph_frontend",
 ]
 resolver = "2"
+
+[workspace.dependencies]
+bitmorph_backend = { path = "./crates/bitmorph_backend" }
