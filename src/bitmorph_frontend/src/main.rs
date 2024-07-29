@@ -1,19 +1,21 @@
 #![allow(non_snake_case)]
 
 use dioxus::prelude::*;
-use tracing::{info, Level};
+use dioxus_logger::tracing::{info, Level};
 
-#[derive(Clone, Routable, Debug, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Clone, Routable, Debug, PartialEq)]
 enum Route {
     #[route("/")]
-    Home {},
-    #[route("/blog/:id")]
-    Blog { id: i32 },
+    Base {},
+
+    #[route("/user/:is_logged_in")]
+    LoginPage { is_logged_in: bool },
 }
 
 fn main() {
     // Init logger
     dioxus_logger::init(Level::INFO).expect("failed to init logger");
+    info!("starting app");
     launch(App);
 }
 
@@ -24,51 +26,78 @@ fn App() -> Element {
 }
 
 #[component]
-fn Blog(id: i32) -> Element {
-    rsx! {
-        Link { to: Route::Home {}, "Go to counter" }
-        "Blog post {id}"
+fn AppTitle(is_logged_in: bool) -> Element {
+    if is_logged_in {
+        rsx! {
+                h1 { "BitMorph" }
+        }
+    } else {
+        rsx! {
+                h1 { "BitMorph - Login" }
+        }
     }
 }
 
 #[component]
-fn Home() -> Element {
-    let mut count = use_signal(|| 0);
-    let mut text = use_signal(|| String::from("..."));
+/// TODO: Make this use a Vec<Element> parameter in the future
+fn NavBar(is_logged_in: bool) -> Element {
+    rsx! {
+        AppTitle { is_logged_in }
+    }
+}
+
+#[component]
+fn LoginPage(is_logged_in: bool) -> Element {
+    let mut user = use_signal(|| "".to_string());
+    let mut password = use_signal(|| "".to_string());
 
     rsx! {
-        Link {
-            to: Route::Blog {
-                id: count()
-            },
-            "Go to blog"
-        }
+        NavBar { is_logged_in }
         div {
-            h1 { "High-Five counter: {count}" }
-            button { onclick: move |_| count += 1, "Up high!" }
-            button { onclick: move |_| count -= 1, "Down low!" }
-            button {
-                onclick: move |_| async move {
-                    if let Ok(data) = get_server_data().await {
-                        tracing::info!("Client received: {}", data);
-                        text.set(data.clone());
-                        post_server_data(data).await.unwrap();
-                    }
-                },
-                "Get Server Data"
+            display: "flex", flex_direction: "column",
+            label { "Username/Email address" input { margin: "0.5rem", r#type: "text", value: "{user}", oninput: move |event| user.set(event.value()) } }
+            label { "Password" input { margin: "0.5rem", r#type: "password", value: "{password}", oninput: move |event| password.set(event.value()) } }
+            div {
+                display: "flex", flex_direction: "row",
+                    button { label { "Login" } }
+                    button { label { "Signup" } }
             }
-            p { "Server data: {text}"}
+            Link { to: Route::Base {}, "Go back to home" }
         }
     }
 }
 
-#[server(PostServerData)]
-async fn post_server_data(data: String) -> Result<(), ServerFnError> {
-    info!("Server received: {}", data);
-    Ok(())
+#[component]
+fn Base() -> Element {
+    let is_logged_in = false;
+
+    rsx! {
+        NavBar { is_logged_in }
+        Home { is_logged_in }
+    }
 }
 
-#[server(GetServerData)]
-async fn get_server_data() -> Result<String, ServerFnError> {
-    Ok("Hello from the server!".to_string())
+#[component]
+fn UserPage() -> Element {
+    rsx! {
+        div {
+            h1 { "Welcome" }
+        }
+    }
+}
+
+#[component]
+fn Home(is_logged_in: bool) -> Element {
+    if is_logged_in {
+        rsx! {
+            UserPage { }
+        }
+    } else {
+        rsx! {
+            Link {
+                to: Route::LoginPage { is_logged_in },
+                "Login as user",
+            }
+        }
+    }
 }
