@@ -1,21 +1,29 @@
 #!/usr/bin/just
 
-build: prebuild
-	dx build
+get-dependencies:
+	sudo zypper -vvv cc
+	sudo zypper -vvv --non-interactive dup
+	sudo zypper -vvv in gdk-pixbuf-devel
 
 prebuild:
 	dfx generate
 
-local-deploy:
-	dfx deploy --network=local
+build: clean frontend
+
+local-deploy: build
+	dfx deploy
 
 ic-deploy:
 	dfx deploy --network=ic
 
 generate:
-	dfx generate bitmorph-backend
+	dfx generate bitmorph_backend
 
 frontend:
 	#!/bin/bash
-	cd crates/bitmorph_frontend/
-	dx build
+	cd src/bitmorph_frontend/
+	dx build --release
+
+clean:
+	rm -rfv target/
+	rm -rfv .dfx
